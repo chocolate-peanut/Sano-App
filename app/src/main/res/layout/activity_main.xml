@@ -7,7 +7,8 @@
         android:layout_height="match_parent"
         tools:context=".MainActivity"
 
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:background="#F8EEE7">
 
         <FrameLayout
                 android:layout_width="match_parent"
@@ -23,9 +24,9 @@
                 app:mbn_circleColor="@android:color/white"
                 app:mbn_selectedIconColor="@color/black"
                 app:mbn_countTextColor="@color/white"
-                app:mbn_countBackgroundColor="@color/purple_200"
+                app:mbn_countBackgroundColor="#49274A"
                 app:mbn_defaultIconColor="@color/white"
-                app:mbn_backgroundBottomColor="@color/black">
+                app:mbn_backgroundBottomColor="#49274A">
         </com.etebarian.meowbottomnavigation.MeowBottomNavigation>
 
 </LinearLayout>

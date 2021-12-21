@@ -1,22 +1,22 @@
 package com.example.sano;
 
-import android.widget.Toast;
+import android.content.Intent;
+import android.view.View;
+import android.widget.Button;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import androidx.fragment.app.Fragment;
 import com.etebarian.meowbottomnavigation.MeowBottomNavigation;
 
 public class MainActivity extends AppCompatActivity {
-    //initialize variable
-    MeowBottomNavigation bottomNavigation;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        //assign variable
-        bottomNavigation = findViewById(R.id.bottom_navigation);
+        //initialize & assign variable[menu bar]
+        MeowBottomNavigation bottomNavigation = findViewById(R.id.bottom_navigation);
         //add menu item
         bottomNavigation.add(new MeowBottomNavigation.Model(1, R.drawable.ic_note));
         bottomNavigation.add(new MeowBottomNavigation.Model(2, R.drawable.ic_goal));
@@ -72,3 +72,6 @@ public class MainActivity extends AppCompatActivity {
                 .commit();
     }
 }
+
+    
+
