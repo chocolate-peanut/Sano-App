@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+             xmlns:tools="http://schemas.android.com/tools"
+             android:layout_width="match_parent"
+             android:layout_height="match_parent"
+             tools:context=".DiaryFragment">
+
+    <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/note_description"
+            android:text="DIARY"
+            android:textSize="20dp"
+            android:textStyle="bold"
+            android:textColor="@color/black"
+            android:padding="25dp">
+    </TextView>
+
+    <androidx.recyclerview.widget.RecyclerView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/diary_recycler_view"
+            android:layout_above="@+id/add_new_button"
+            android:layout_below="@+id/note_description"
+            android:padding="25dp"
+            android:layout_marginTop="80dp"
+            android:layout_marginBottom="200dp">
+    </androidx.recyclerview.widget.RecyclerView>
+
+    <Button
+            android:text="Add New Diary"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/add_new_button"
+            android:layout_marginTop="600dp"
+            android:textColor="#F8EEE7"/>
+
+</FrameLayout>
