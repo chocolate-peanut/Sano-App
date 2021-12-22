@@ -41,6 +41,7 @@ dependencies {
 
     implementation platform('com.google.firebase:firebase-bom:29.0.2')
     implementation 'com.google.firebase:firebase-analytics'
+    implementation 'com.google.firebase:firebase-firestore'
 
     implementation 'com.etebarian:meow-bottom-navigation-java:1.2.0'
     implementation 'androidx.recyclerview:recyclerview:1.1.0'

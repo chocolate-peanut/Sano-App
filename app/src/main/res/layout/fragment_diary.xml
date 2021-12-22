@@ -33,6 +33,7 @@
             android:layout_height="wrap_content"
             android:id="@+id/add_new_button"
             android:layout_marginTop="600dp"
-            android:textColor="#F8EEE7"/>
+            android:textColor="#F8EEE7"
+            android:backgroundTint="#E0115F"/>
 
 </FrameLayout>
