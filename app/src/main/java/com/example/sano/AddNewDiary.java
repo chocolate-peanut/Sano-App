@@ -12,6 +12,7 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.SetOptions;
 
 import java.text.DateFormat;
 import java.util.Calendar;
@@ -46,9 +47,9 @@ public class AddNewDiary extends AppCompatActivity implements DatePickerDialog.O
             @Override
             public void onClick(View view) {
                 String content = write_anything.getText().toString().trim();
-                String date = date_view.getText().toString().trim();
+                String createdDate = date_view.getText().toString().trim();
 
-                if (content.isEmpty() || date.isEmpty()){
+                if (content.isEmpty() || createdDate.isEmpty()){
                     Toast.makeText(AddNewDiary.this, "Please fill in all required field.", Toast.LENGTH_SHORT).show();
                 }
 
@@ -56,8 +57,8 @@ public class AddNewDiary extends AppCompatActivity implements DatePickerDialog.O
                 DocumentReference documentReference = firestore.collection("diaries").document();
                 Map<String, Object> diary = new HashMap<>();
                 diary.put("Content", content);
-                diary.put("Date", date);
-                documentReference.set(diary);
+                diary.put("Created date", createdDate);
+                documentReference.set(diary, SetOptions.merge());
 
                 documentReference.set(diary).addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
