@@ -1,82 +1,49 @@
 package com.example.sano;
 
 import android.content.Intent;
+import android.graphics.ColorSpace;
 import android.os.Bundle;
+import android.widget.Adapter;
 import android.widget.Button;
+import android.widget.TextView;
+import android.widget.Toast;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
+import com.firebase.ui.firestore.FirestoreRecyclerOptions;
+import com.google.android.material.shape.ShapeAppearanceModel;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link DiaryFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
-public class DiaryFragment extends Fragment {
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.List;
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
+public class DiaryFragment extends Fragment {//implements RecyclerViewAdapter.ItemClickListener{
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public long getCreatedTime() {
-        return createdTime;
-    }
-
-    public void setCreatedTime(long createdTime) {
-        this.createdTime = createdTime;
-    }
-
-    String description;
-    long createdTime;
+    RecyclerView diaryList;
+    FirebaseFirestore firestore;
+    FirestoreRecyclerAdapter<Model, DiaryViewHolder> diaryAdapter;
 
     public DiaryFragment() {
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment DiaryFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static DiaryFragment newInstance(String param1, String param2) {
-        DiaryFragment fragment = new DiaryFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_diary, container, false);
+
         //initialize & assign variable[add new diary button in diary fragment]
         Button add_new_button = (Button) rootView.findViewById(R.id.add_new_button);
         add_new_button.setOnClickListener(new View.OnClickListener() {
@@ -86,7 +53,80 @@ public class DiaryFragment extends Fragment {
                 startActivity(intent);
             }
         });
+
         return rootView;
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        //---
+        //retrieve data
+        firestore = FirebaseFirestore.getInstance();
+
+        Query query = firestore.collection("diaries").orderBy("Content", Query.Direction.DESCENDING);
+
+        FirestoreRecyclerOptions<Model> allDiaries = new FirestoreRecyclerOptions.Builder<Model>()
+                .setQuery(query, Model.class)
+                .build();
+
+        diaryAdapter = new FirestoreRecyclerAdapter<Model, DiaryViewHolder>(allDiaries) {
+            @Override
+            protected void onBindViewHolder(@NonNull DiaryViewHolder diaryViewHolder, int i, @NonNull Model model) {
+                diaryViewHolder.diary_content.setText(model.getDiary_content());
+                diaryViewHolder.diary_date.setText(model.getDiary_date());
+
+                diaryViewHolder.view.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Toast.makeText(view.getContext(), "You clicked this.", Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }
+
+            @NonNull
+            @Override
+            public DiaryViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+                View theview = LayoutInflater.from(parent.getContext()).inflate(R.layout.diary_rview, parent, false);
+                return new DiaryViewHolder(theview);
+            }
+        };
+        //---
+
+        diaryList = getActivity().findViewById(R.id.diary_recyclerView);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
+
+        diaryList.setLayoutManager(layoutManager);
+        diaryList.setAdapter(diaryAdapter);
+
+    }
+
+    public class DiaryViewHolder extends RecyclerView.ViewHolder{
+        TextView diary_content;
+        TextView diary_date;
+        View view;
+
+        public DiaryViewHolder(@NonNull View itemView) {
+            super(itemView);
+
+            diary_content = itemView.findViewById(R.id.diary_content);
+            diary_date = itemView.findViewById(R.id.diary_date);
+            view = itemView;
+        }
+    }
+
+    @Override
+    public void onStart(){
+        super.onStart();
+        diaryAdapter.startListening();
+    }
+
+    @Override
+    public void onStop(){
+        super.onStop();
+        if (diaryAdapter != null){
+            diaryAdapter.stopListening();
+        }
     }
 
 }

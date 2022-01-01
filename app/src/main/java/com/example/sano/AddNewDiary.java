@@ -33,6 +33,7 @@ public class AddNewDiary extends AppCompatActivity implements DatePickerDialog.O
         EditText write_anything = findViewById(R.id.write_anything);
         TextView date_view = findViewById(R.id.date_view);
         Button save_diary_button = findViewById(R.id.save_diary_button);
+        Button back_button = findViewById(R.id.back_button);
         Button date_button = findViewById(R.id.date_button);
 
         date_button.setOnClickListener(new View.OnClickListener() {
@@ -51,6 +52,7 @@ public class AddNewDiary extends AppCompatActivity implements DatePickerDialog.O
 
                 if (content.isEmpty() || createdDate.isEmpty()){
                     Toast.makeText(AddNewDiary.this, "Please fill in all required field.", Toast.LENGTH_SHORT).show();
+                    return;
                 }
 
                 //save data
@@ -75,6 +77,14 @@ public class AddNewDiary extends AppCompatActivity implements DatePickerDialog.O
 
             }
         });
+
+        back_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onBackPressed();
+            }
+        });
+
     }
 
     @Override
