@@ -26,33 +26,6 @@
                 app:layout_constraintStart_toStartOf="parent">
         </TextView>
 
-        <!--    <TextView
-                    android:id="@+id/diary_content"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:textSize="18dp"
-                    android:textColor="@color/black"
-                    app:layout_constraintBottom_toTopOf="@+id/add_new_button"
-                    app:layout_constraintTop_toTopOf="parent"
-                    tools:layout_editor_absoluteX="16dp"
-                    app:layout_constraintVertical_bias="0.133"
-                    tools:text="Content">
-            </TextView>
-
-            <TextView
-                    android:id="@+id/diary_date"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="@color/black"
-                    android:textStyle="italic"
-                    app:layout_constraintBottom_toTopOf="@+id/add_new_button"
-                    app:layout_constraintTop_toBottomOf="@+id/diary_content"
-                    app:layout_constraintVertical_bias="0.0"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    tools:text="Date">
-            </TextView>
-        -->
-
         <Button
                 android:text="Add New Diary"
                 android:layout_width="match_parent"
@@ -71,9 +44,12 @@
                 android:layout_width="374dp"
                 android:layout_height="511dp"
                 app:layout_constraintBottom_toTopOf="@+id/add_new_button"
-                app:layout_constraintTop_toBottomOf="@+id/title_diary" app:layout_constraintVertical_bias="0.395"
-                app:layout_constraintStart_toStartOf="parent" app:layout_constraintEnd_toEndOf="parent">
-            <!--app:layout_constraintTop_toBottomOf="@+id/diary_date"-->
+                app:layout_constraintTop_toBottomOf="@+id/title_diary"
+                app:layout_constraintVertical_bias="0.395"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layoutManager="LinearLayoutManager"
+                android:usesCleartextTraffic="true">
         </androidx.recyclerview.widget.RecyclerView>
 
     </androidx.constraintlayout.widget.ConstraintLayout>

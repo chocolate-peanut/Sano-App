@@ -1,5 +1,6 @@
 package com.example.sano;
 
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -8,31 +9,48 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.MyViewHolder> {
     //this class has no usage, just for reserved.
 
-    List<String> diary_content;
-    List<String> diary_date;
+    List<String> content;
+    List<String> createdDate;
 
-    public RecyclerViewAdapter(List<String> diary_content, List<String> diary_date){
-        this.diary_content = diary_content;
-        this.diary_date = diary_date;
+    /*Context context;
+    ArrayList<Model> modelArrayList;
+
+    public RecyclerViewAdapter(Context context, ArrayList<Model> modelArrayList) {
+        this.context = context;
+        this.modelArrayList = modelArrayList;
+    }*/
+
+    public RecyclerViewAdapter(Object o){}
+
+    public RecyclerViewAdapter(List<String> content, List<String> createdDate){
+        this.content = content;
+        this.createdDate = createdDate;
     }
 
     @NonNull
     @Override
     public RecyclerViewAdapter.MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.diary_rview, parent, false);
+        //View view = LayoutInflater.from(context).inflate(R.layout.diary_rview, parent, false);
         return new MyViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerViewAdapter.MyViewHolder holder, int position) {
 
-        holder.diary_content.setText(diary_content.get(position));
-        holder.diary_date.setText(diary_date.get(position));
+        /*Model model = modelArrayList.get(position);
+
+        holder.diary_content.setText(model.getContent());
+        holder.diary_date.setText(model.getCreatedDate());*/
+
+        holder.diary_content.setText(content.get(position));
+        holder.diary_date.setText(createdDate.get(position));
 
         holder.view.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -45,10 +63,10 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
     @Override
     public int getItemCount() {
-        return diary_content.size();
+        return content.size();
     }
 
-    class MyViewHolder extends RecyclerView.ViewHolder {
+    public class MyViewHolder extends RecyclerView.ViewHolder {
         TextView diary_content;
         TextView diary_date;
         View view;

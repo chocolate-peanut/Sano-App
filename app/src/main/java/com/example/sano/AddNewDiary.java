@@ -59,7 +59,7 @@ public class AddNewDiary extends AppCompatActivity implements DatePickerDialog.O
                 DocumentReference documentReference = firestore.collection("diaries").document();
                 Map<String, Object> diary = new HashMap<>();
                 diary.put("Content", content);
-                diary.put("Created date", createdDate);
+                diary.put("CreatedDate", createdDate);
                 documentReference.set(diary, SetOptions.merge());
 
                 documentReference.set(diary).addOnSuccessListener(new OnSuccessListener<Void>() {

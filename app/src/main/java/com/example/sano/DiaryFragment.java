@@ -1,9 +1,7 @@
 package com.example.sano;
 
 import android.content.Intent;
-import android.graphics.ColorSpace;
 import android.os.Bundle;
-import android.widget.Adapter;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -17,15 +15,12 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
-import com.google.android.material.shape.ShapeAppearanceModel;
-import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.*;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 
-public class DiaryFragment extends Fragment {//implements RecyclerViewAdapter.ItemClickListener{
+public class DiaryFragment extends Fragment {
 
     RecyclerView diaryList;
     FirebaseFirestore firestore;
@@ -60,8 +55,8 @@ public class DiaryFragment extends Fragment {//implements RecyclerViewAdapter.It
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        //---
-        //retrieve data
+
+        //--- retrieve data
         firestore = FirebaseFirestore.getInstance();
 
         Query query = firestore.collection("diaries").orderBy("Content", Query.Direction.DESCENDING);
@@ -73,8 +68,8 @@ public class DiaryFragment extends Fragment {//implements RecyclerViewAdapter.It
         diaryAdapter = new FirestoreRecyclerAdapter<Model, DiaryViewHolder>(allDiaries) {
             @Override
             protected void onBindViewHolder(@NonNull DiaryViewHolder diaryViewHolder, int i, @NonNull Model model) {
-                diaryViewHolder.diary_content.setText(model.getDiary_content());
-                diaryViewHolder.diary_date.setText(model.getDiary_date());
+                diaryViewHolder.diary_content.setText(model.getContent());
+                diaryViewHolder.diary_date.setText(model.getCreatedDate());
 
                 diaryViewHolder.view.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -90,14 +85,14 @@ public class DiaryFragment extends Fragment {//implements RecyclerViewAdapter.It
                 View theview = LayoutInflater.from(parent.getContext()).inflate(R.layout.diary_rview, parent, false);
                 return new DiaryViewHolder(theview);
             }
+
         };
         //---
 
         diaryList = getActivity().findViewById(R.id.diary_recyclerView);
-        LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
-
-        diaryList.setLayoutManager(layoutManager);
         diaryList.setAdapter(diaryAdapter);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
+        diaryList.setLayoutManager(layoutManager);
 
     }
 
@@ -106,7 +101,7 @@ public class DiaryFragment extends Fragment {//implements RecyclerViewAdapter.It
         TextView diary_date;
         View view;
 
-        public DiaryViewHolder(@NonNull View itemView) {
+        public DiaryViewHolder (@NonNull View itemView) {
             super(itemView);
 
             diary_content = itemView.findViewById(R.id.diary_content);

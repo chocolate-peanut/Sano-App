@@ -2,30 +2,28 @@ package com.example.sano;
 
 public class Model {
 
-    private String diary_content;
-    private String diary_date;
+    private String Content;
+    private String CreatedDate;
 
     public Model(){}
 
-    public Model(String diary_content, String diary_date){
-        this.diary_content = diary_content;
-        this.diary_date = diary_date;
+    public Model(String Content, String CreatedDate){
+        this.Content = Content;
+        this.CreatedDate = CreatedDate;
     }
 
-    public String getDiary_content(){
-        return diary_content;
+    public String getContent(){
+        return Content;
     }
 
-    public void setDiary_content(String diary_content){
-        this.diary_content = diary_content;
+    public void setContent(String Content){ this.Content = Content; }
+
+    public String getCreatedDate(){
+        return CreatedDate;
     }
 
-    public String getDiary_date(){
-        return diary_date;
-    }
-
-    public void setDiary_date(String diary_date){
-        this.diary_date = diary_date;
+    public void setCreatedDate(String CreatedDate){
+        this.CreatedDate = CreatedDate;
     }
 
 }
