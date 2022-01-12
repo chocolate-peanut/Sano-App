@@ -74,7 +74,7 @@ public class DiaryFragment extends Fragment {
                 diaryViewHolder.view.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        Toast.makeText(view.getContext(), "You clicked this.", Toast.LENGTH_SHORT).show();
+                        //Toast.makeText(view.getContext(), "You clicked this.", Toast.LENGTH_SHORT).show();
                     }
                 });
             }

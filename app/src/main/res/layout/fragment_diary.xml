@@ -7,7 +7,9 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         tools:context=".DiaryFragment"
-        android:padding="10dp">
+        android:padding="10dp"
+
+        android:background="#F8EEE7">
 
     <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
