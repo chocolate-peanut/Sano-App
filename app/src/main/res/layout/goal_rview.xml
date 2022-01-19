@@ -31,6 +31,20 @@
                     android:buttonTint="#94618E">
             </CheckBox>
 
+            <!--dunno need or not-->
+            <TextView
+                    android:id="@+id/goal_content"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="18dp"
+                    android:textColor="@color/black"
+                    android:layout_marginLeft="40dp"
+                    android:layout_marginRight="10dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    tools:layout_editor_absoluteX="36dp"
+                    android:layout_marginBottom="12dp">
+            </TextView>
+
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.cardview.widget.CardView>

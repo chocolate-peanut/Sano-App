@@ -42,6 +42,8 @@ public class MainActivity extends AppCompatActivity {
                     case 4:
                         fragment = new SettingFragment();
                         break;
+                    default:
+                        throw new IllegalStateException("Unexpected value: " + item.getId());
                 }
                 loadFragment(fragment);
             }
