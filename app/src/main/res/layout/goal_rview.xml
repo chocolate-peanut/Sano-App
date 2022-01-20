@@ -31,7 +31,6 @@
                     android:buttonTint="#94618E">
             </CheckBox>
 
-            <!--dunno need or not-->
             <TextView
                     android:id="@+id/goal_content"
                     android:layout_width="match_parent"

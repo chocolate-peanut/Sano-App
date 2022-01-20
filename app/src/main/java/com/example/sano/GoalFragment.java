@@ -2,10 +2,7 @@ package com.example.sano;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.widget.Button;
-import android.widget.CheckBox;
-import android.widget.TextView;
-import android.widget.Toast;
+import android.widget.*;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -16,14 +13,20 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.SetOptions;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class GoalFragment extends Fragment {
 
     RecyclerView goalList;
     FirebaseFirestore firestore;
     FirestoreRecyclerAdapter<GoalModel, GoalViewHolder> goalAdapter;
+    String goal_checked;
 
     public GoalFragment() {
         // Required empty public constructor
@@ -66,6 +69,12 @@ public class GoalFragment extends Fragment {
             @Override
             protected void onBindViewHolder(@NonNull GoalViewHolder goalViewHolder, int i, @NonNull GoalModel goalModel) {
                 goalViewHolder.goal_content.setText(goalModel.getGoal());
+                if (goalModel.getGoalCheckbox() == "true"){
+                    goalViewHolder.goal_check.setChecked(true);
+                }
+                else{
+                    goalViewHolder.goal_check.setChecked(false);
+                }
 
                 goalViewHolder.view.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -79,11 +88,60 @@ public class GoalFragment extends Fragment {
             @Override
             public GoalFragment.GoalViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
                 View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.goal_rview, parent, false);
+
+                CheckBox goal_check_box = (CheckBox) view.findViewById(R.id.goal_check);
+                DocumentReference documentReference = firestore.collection("goals").document();
+                Map<String, Object> goalCheck = new HashMap<>();
+
+                goal_check_box.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                    @Override
+                    public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                        if (goal_check_box.isChecked()){
+                            goal_check_box.setChecked(true);
+                            goal_checked = "true";
+                            goalCheck.put("GoalCheckbox", goal_checked);
+                            documentReference.set(goalCheck, SetOptions.merge());
+
+                        }
+                        else{
+                            goal_check_box.setChecked(false);
+                            goal_checked = "false";
+                            //goalCheck.put("GoalCheckbox", goal_checked);
+                            //documentReference.set(goalCheck);
+                        }
+                    }
+
+                });
+
                 return new GoalFragment.GoalViewHolder(view);
             }
 
         };
         //---
+
+        /*CheckBox goal_check_box = (CheckBox) view.findViewById(R.id.goal_check);
+
+        goal_check_box.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                if (goal_check_box.isChecked()){
+                    goal_check_box.setChecked(true);
+                    //documentReference.set(goalModel);
+
+                }
+                else{
+                    goal_check_box.setChecked(false);
+                    //documentReference.set(goalModel);
+                }
+            }
+        });
+
+        String goal_check = goal_check_box.getText().toString().trim();
+
+        DocumentReference documentReference = firestore.collection("goals").document();
+        Map<String, Object> goalCheck = new HashMap<>();
+        goalCheck.put("GoalCheckbox", goal_check);
+        documentReference.set(goalCheck, SetOptions.merge());*/
 
         goalList = getActivity().findViewById(R.id.goal_recyclerView);
         goalList.setAdapter(goalAdapter);
@@ -94,12 +152,14 @@ public class GoalFragment extends Fragment {
 
     public class GoalViewHolder extends RecyclerView.ViewHolder{
         TextView goal_content;
+        CheckBox goal_check;
         View view;
 
         public GoalViewHolder (@NonNull View itemView){
             super(itemView);
 
             goal_content = itemView.findViewById(R.id.goal_content);
+            goal_check = itemView.findViewById(R.id.goal_check);
             view = itemView;
         }
     }
