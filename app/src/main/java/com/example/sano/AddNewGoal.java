@@ -35,6 +35,7 @@ public class AddNewGoal extends AppCompatActivity {
         save_goal_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                //save new goal content to firebase
                 String goal_content = new_goal_text.getText().toString().trim();
 
                 if (goal_content.isEmpty()){

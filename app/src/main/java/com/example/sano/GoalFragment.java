@@ -68,7 +68,9 @@ public class GoalFragment extends Fragment {
         goalAdapter = new FirestoreRecyclerAdapter<GoalModel, GoalFragment.GoalViewHolder>(allGoals) {
             @Override
             protected void onBindViewHolder(@NonNull GoalViewHolder goalViewHolder, int i, @NonNull GoalModel goalModel) {
+                //retrieve goal content
                 goalViewHolder.goal_content.setText(goalModel.getGoal());
+                //trying to retrieve goal checkbox value
                 if (goalModel.getGoalCheckbox() == "true"){
                     goalViewHolder.goal_check.setChecked(true);
                 }
@@ -89,6 +91,7 @@ public class GoalFragment extends Fragment {
             public GoalFragment.GoalViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
                 View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.goal_rview, parent, false);
 
+                //cuz checkbox is under goal_rview.xml so i do save checkbox data here
                 CheckBox goal_check_box = (CheckBox) view.findViewById(R.id.goal_check);
                 DocumentReference documentReference = firestore.collection("goals").document();
                 Map<String, Object> goalCheck = new HashMap<>();
@@ -99,13 +102,13 @@ public class GoalFragment extends Fragment {
                         if (goal_check_box.isChecked()){
                             goal_check_box.setChecked(true);
                             goal_checked = "true";
-                            goalCheck.put("GoalCheckbox", goal_checked);
+                            goalCheck.put("GoalCheckbox", goal_checked); //store the "true" into firebase
                             documentReference.set(goalCheck, SetOptions.merge());
 
                         }
                         else{
                             goal_check_box.setChecked(false);
-                            goal_checked = "false";
+                            goal_checked = "false"; //here i think false nonid to save?
                             //goalCheck.put("GoalCheckbox", goal_checked);
                             //documentReference.set(goalCheck);
                         }
@@ -118,30 +121,6 @@ public class GoalFragment extends Fragment {
 
         };
         //---
-
-        /*CheckBox goal_check_box = (CheckBox) view.findViewById(R.id.goal_check);
-
-        goal_check_box.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                if (goal_check_box.isChecked()){
-                    goal_check_box.setChecked(true);
-                    //documentReference.set(goalModel);
-
-                }
-                else{
-                    goal_check_box.setChecked(false);
-                    //documentReference.set(goalModel);
-                }
-            }
-        });
-
-        String goal_check = goal_check_box.getText().toString().trim();
-
-        DocumentReference documentReference = firestore.collection("goals").document();
-        Map<String, Object> goalCheck = new HashMap<>();
-        goalCheck.put("GoalCheckbox", goal_check);
-        documentReference.set(goalCheck, SetOptions.merge());*/
 
         goalList = getActivity().findViewById(R.id.goal_recyclerView);
         goalList.setAdapter(goalAdapter);
